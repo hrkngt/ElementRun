@@ -10,8 +10,9 @@ public class MovementManager : MonoBehaviour {
     private Animator animator;
 
     private float moveSpeed = 0.03f;
-    private int rotationStopper = 0;
+    private float animSpeed = 0.7f; //Initial animation speed
 
+    private int rotationStopper = 0;
     private float previousScore = 0;
 
     private void Awake()
@@ -35,6 +36,9 @@ public class MovementManager : MonoBehaviour {
 
             //set running animation
             animator.SetInteger("Speed", 2);
+
+            //
+            animator.speed = animSpeed;
         }
         else if (GameStateManager.CurrentState == GameStateManager.GameStates.GAMEOVER)
         {
@@ -60,7 +64,7 @@ public class MovementManager : MonoBehaviour {
         //constantly increase player speed
         if ( 600 * moveSpeed < ScoreManager.Score - previousScore)
         {
-            IncreaseSpeed(0.005f);
+            IncreaseSpeed(0.008f);
             previousScore = ScoreManager.Score;
         }
 
@@ -69,6 +73,6 @@ public class MovementManager : MonoBehaviour {
     void IncreaseSpeed(float increaseBy)
     {
         moveSpeed += increaseBy;
-        animator.speed += increaseBy;
+        animSpeed += increaseBy;
     }
 }
