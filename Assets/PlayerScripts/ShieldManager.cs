@@ -28,7 +28,6 @@ public class ShieldManager : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log(ShieldManager.Health);
 
         //Reset static values on initial state
         if (GameStateManager.CurrentState == GameStateManager.GameStates.INITIAL)

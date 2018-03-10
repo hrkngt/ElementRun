@@ -39,14 +39,6 @@ public class Enemy : BaseDamager {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("ElementSame: " + ElementSame);
-        Debug.Log("ElementWeak: " + ElementWeak);
-
-        Debug.Log("DamageForSameElement: " + DamageForSameElement);
-
-        Debug.Log(collision.gameObject.name);
-
-
         switch (collision.gameObject.name)
         {
             case "glass":
@@ -72,8 +64,6 @@ public class Enemy : BaseDamager {
                 }
                 break;
         }
-
-        Debug.Log("ShieldHealth: " + ShieldManager.Health);
 
         Destroy(this.gameObject);
     }
