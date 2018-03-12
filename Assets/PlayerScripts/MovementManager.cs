@@ -37,6 +37,9 @@ public class MovementManager : MonoBehaviour {
             //プレイヤーを前進させる
             PlayerTransform.position += new Vector3(0, 0, moveSpeed);
 
+            //アニメーションを初期スピードに設定
+            animator.speed = animSpeed;
+
             //アニメーターを走っている状態に設定
             animator.SetInteger("Speed", 2);
         }
@@ -55,7 +58,7 @@ public class MovementManager : MonoBehaviour {
             }
 
             //アニメーターのスピードを徐々に遅くし、最終的に止める
-            if (animator.speed > 0.01f) 
+            if (animator.speed > 0) 
             {
                 //フレーム毎にアニメーションを遅くする
                 animator.speed -= 0.01f;

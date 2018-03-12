@@ -14,12 +14,8 @@ public class ResultPanel : MonoBehaviour {
     public Text highestScoreText;  //ハイスコアを表示する
     public Button retryButton;     //リトライボタン
 
-    FadeManager fadeManager;　//死亡時に画面を赤くするために使用
-
     private void Start()
     {
-        fadeManager = GameObject.Find("Canvas").GetComponent<FadeManager>();
-
         //リトライボタンが押される　→　シーンをリセット
         retryButton.onClick.AddListener(delegate {
             GameStateManager.CurrentState = GameStateManager.GameStates.INITIAL;
