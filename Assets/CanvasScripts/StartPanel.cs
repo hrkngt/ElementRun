@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class StartPanel : MonoBehaviour {
 
-    public Button startButton;
-    public Button howToPlayButton;
+    /// <summary>
+    /// スタート画面のパネルの表示設定をするためのスクリプト
+    /// </summary>
+
+    public Button startButton;　　　//ゲーム開始ボタン
+    public Button howToPlayButton;　//遊び方を表示するボタン
 
     private void Start()
     {
+        //各ボタンが押された際の動作を設定
         startButton.onClick.AddListener(delegate { GameStateManager.CurrentState = GameStateManager.GameStates.RUNNING; });
         howToPlayButton.onClick.AddListener(delegate { GameStateManager.CurrentState = GameStateManager.GameStates.TUTORIAL; });
     }

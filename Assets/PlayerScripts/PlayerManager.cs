@@ -5,53 +5,61 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour {
 
     /// <summary>
-    /// This script is for controlling player health and body element
+    /// プレイヤーの体の属性、及び体力を更新するためのスクリプト
     /// </summary>
 
 
-    public static float Health { get; set; }
-    public static ElementManager.Elements BodyElement { get; set; }
+    public static float Health { get; set; } //プレイヤーの体力
+    public static ElementManager.Elements BodyElement { get; set; } //体の属性
 
-    public SkinnedMeshRenderer bodyMesh;
+    SkinnedMeshRenderer bodyMesh; //体の色を属性に応じて変更するために使用
 
     private void Awake()
     {
-        Health = 100;
+        bodyMesh = transform.Find("robotMesh").GetComponent<SkinnedMeshRenderer>();
+
+        Health = 100; //ゲーム開始時の体力の初期値
     }
 
     private void Update()
     {
         
-        //Reset static values on initial state
+        //シーンリセット時に体力の初期値と初期の属性を再セット
         if (GameStateManager.CurrentState == GameStateManager.GameStates.INITIAL)
         {
             Health = 100;
 
-            //Starting body element is fire
+            //初期の属性を炎(赤)にセット
             BodyElement = ElementManager.Elements.FIRE;
         }
         
 
-        //Changes body color depending on current element
+        //体の色を現属性に応じて変更
         switch (BodyElement)
         {
             case ElementManager.Elements.FIRE:
-                //Change body material color to red
+                //赤に変更
                 bodyMesh.material.SetColor("_Color", Color.red);
                 break;
+
             case ElementManager.Elements.WATER:
-                //Change body material color to blue
+                //青に変更
                 bodyMesh.material.SetColor("_Color", Color.blue);
                 break;
+
             case ElementManager.Elements.LEAF:
-                //Change body material color to green
+                //緑に変更
                 bodyMesh.material.SetColor("_Color", Color.green);
                 break;
         }
 
+        //体力が0以下になった際に、ゲームの状態を更新
         if (Health <= 0)
         {
+            //体力が負の数になった場合、0にセット
             Health = 0; 
+
+            //ゲームの状態を”ゲームオーバー”に変更
             GameStateManager.CurrentState = GameStateManager.GameStates.GAMEOVER;
         }
 

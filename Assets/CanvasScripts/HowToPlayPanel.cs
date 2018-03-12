@@ -6,7 +6,11 @@ using UnityEngine.UI;
 
 public class HowToPlayPanel : MonoBehaviour {
 
-    public Button goBackButton;
+    /// <summary>
+    /// 遊び方を表示するパネルの設定をするためのスクリプト
+    /// </summary>
+
+    public Button goBackButton;　//スタート画面に戻るボタン
 
     private void Start()
     {

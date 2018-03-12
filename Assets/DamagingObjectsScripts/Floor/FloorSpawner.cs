@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class FloorSpawner : MonoBehaviour {
 
-    public GameObject[] floorPrehabs;
+    /// <summary>
+    /// フロアの生成を設定するためのスクリプト
+    /// </summary>
 
-    private Transform playerTransform;
-    private float spawnZ = -2;
+    public GameObject[] floorPrehabs;　　　//フロアオブジェクト
 
-    private float groundLength = 2;
-    private int amtGroundOnScreen = 10;
+    private Transform playerTransform;　　 //プレイヤーオブジェクト
+    private float spawnZ = -2;　　　　　　 //生成されるフロアのZ座標
 
-    private List<GameObject> activeFloor;
-    private float safeZone = 2;
+    private float groundLength = 2;　   　 //フロアの長さ
+    private int amtGroundOnScreen = 10;　　//ゲーム内に存在するフロアの数
 
-    bool isSafe = true;
+    private List<GameObject> activeFloor;　//フロアを削除等管理する際に使用
+    private float safeZone = 2;　　　　　　//プレイヤーの後ろに存在するフロアを設定する際に使用
+
+    bool isSafe = true;　　　　　　　　　　//プレイヤーが安全地帯内にいるかどうかを確認するために使用
 
     private void Awake()
     {
         activeFloor = new List<GameObject>();
 
         playerTransform = GameObject.Find("Player").transform;
+
+        //ゲーム開始時の安全なフロアを用意
         for (int i = 0; i <= amtGroundOnScreen; i++)
         {
             SpawnFloor(true);
@@ -31,34 +37,49 @@ public class FloorSpawner : MonoBehaviour {
 
     private void Update()
     {
+        //プレイヤーが安全地帯を抜けて一定距離進んだ際に次々フロアを生成
         if (playerTransform.position.z - safeZone > spawnZ - amtGroundOnScreen * groundLength)
         {
-            SpawnFloor(isSafe); 
+            //フロアを生成
+            SpawnFloor(isSafe);
+
+            //最も古いフロアを削除
             DeleteGround();
 
-            //Ensures damage floors do not continuity
+            //ダメージフロアが2つ以上続くのを防ぐ
             isSafe = (isSafe) ? false : true;
         }
     }
 
-    void SpawnFloor(bool safe)
+    void SpawnFloor(bool isSafe)
     {
-        GameObject go;
+        GameObject go; //フロアオブジェクトを一時格納するために使用
 
-        //if safe is false, randomly spawn damage floors
-        int a = (safe) ? 0 : Random.Range(0, 4);
+        //isSafeがfalseであれば、ランダムな属性のダメージフロアを生成
+        int a = (isSafe) ? 0 : Random.Range(0, 4);
 
-        //Create safe floor object
+        //フロアを生成
         go = Instantiate(floorPrehabs[a]) as GameObject;
+        
+        //親オブジェクトを設定
         go.transform.SetParent(transform);
+
+        //フロアオブジェクトの座標を設定
         go.transform.position = Vector3.forward * spawnZ;
+
+        //次のフロアオブジェクトのZ座標を更新
         spawnZ += groundLength;
+
+        //リストに生成されたフロアオブジェクトを追加
         activeFloor.Add(go);
     }
 
-    void DeleteGround()
+    void DeleteGround()　//不要になったフロアの削除
     {
+        //オブジェクトの削除
         Destroy(activeFloor[0]);
+
+        //リストから削除
         activeFloor.RemoveAt(0);
     }
 }

@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class CanvasManager : MonoBehaviour {
 
-    public Canvas canvas;
+    /// <summary>
+    /// ゲーム内の状況に応じてキャンバス状に表示するパネルを切り替えるためのスクリプト
+    /// </summary>
 
-    bool hasWaited = false;
+
+    public Canvas canvas;　　//操作するキャンバス
+    bool hasWaited = false;　//一定時間待ったことを確認
 
     private void Update()
     {
@@ -25,14 +29,17 @@ public class CanvasManager : MonoBehaviour {
         {
             DeactivateAll();
             SetActive("MainGamePanel", true);
+
         }else if(GameStateManager.CurrentState == GameStateManager.GameStates.GAMEOVER)
         {
             DeactivateAll();
             SetActive("FaderImage", true);
-            //Wait and show
-            StartCoroutine(Wait());
+
+            //１秒待った後にリザルトパネルを表示する
+            StartCoroutine(Wait(1.0f));
             if(hasWaited)
                 SetActive("ResultPanel", true);
+
         }else if(GameStateManager.CurrentState == GameStateManager.GameStates.PAUSED)
         {
             DeactivateAll();
@@ -41,13 +48,13 @@ public class CanvasManager : MonoBehaviour {
         }
     }
 
-    IEnumerator Wait()
+    IEnumerator Wait(float duration)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(duration);
         hasWaited = true;
     }
 
-    private void DeactivateAll()
+    private void DeactivateAll() //キャンバス上のすべてのパネルを非表示にする
     {
         foreach (Transform child in canvas.transform)
         {
@@ -55,16 +62,22 @@ public class CanvasManager : MonoBehaviour {
         }
     }
 
-    private void SetActive(string name, bool toggle)
+    private void SetActive(string name, bool toggle) //キャンバス上の名前で指定された要素を　表示/非表示に　する
     {
+        //指定の名前に該当するオブジェクトを子から探し、
         foreach (Transform child in canvas.transform)
         {
-            if (child.name == name)
+            if (child.name == name)　//該当するオブジェクトを見つけた場合
             {
+                ///表示 / 非表示にする
                 child.gameObject.SetActive(toggle);
+                
+                ///完了
                 return;
             }
         }
+
+        //該当する名前のオブジェクトが見当たらない場合、コンソールに警告を表示
         Debug.LogWarning("Not found objname:" + name);
     }
 }

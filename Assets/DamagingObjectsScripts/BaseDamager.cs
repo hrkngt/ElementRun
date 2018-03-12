@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class BaseDamager : MonoBehaviour {
 
-    public ElementManager.Elements ElementSame { get; set; }
-    public ElementManager.Elements ElementWeak { get; set; }
-
-    public float DamageForSameElement { get; set; }
-    public float DamageForWeakElement { get; set; }
+    /// <summary>
+    /// プレイヤーにダメージを与えるオブジェクトの設定をするためのスクリプト
+    /// </summary>
 
 
-    public void SetElements(ElementManager.Elements element)
+    public ElementManager.Elements ElementSame { get; set; }　//同属性
+    public ElementManager.Elements ElementWeak { get; set; }　//弱点属性
+
+    public float DamageForSameElement { get; set; }　//同属性に対するダメージ
+    public float DamageForWeakElement { get; set; }　//弱点属性に対するダメージ
+
+
+    public void SetElements(ElementManager.Elements element)　//属性を設定
     {
-
+        //属性に応じて同属性と弱点属性を設定
         switch (element)
         {
             case ElementManager.Elements.FIRE:

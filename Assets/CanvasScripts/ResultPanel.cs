@@ -6,19 +6,22 @@ using UnityEngine.SceneManagement;
 
 public class ResultPanel : MonoBehaviour {
 
-    public Text resultScoreText;
-    public Text highestScoreText;
-    public Button retryButton;
+    /// <summary>
+    /// ゲームオーバー時に表示されるリザルトパネルの内容を操作するためのスクリプト
+    /// </summary>
 
-    FadeManager fadeManager;
+    public Text resultScoreText;   //そのときのスコアを表示する
+    public Text highestScoreText;  //ハイスコアを表示する
+    public Button retryButton;     //リトライボタン
+
+    FadeManager fadeManager;　//死亡時に画面を赤くするために使用
 
     private void Start()
     {
-        fadeManager = GameObject.Find("_SCRIPTS_").GetComponent<FadeManager>();
+        fadeManager = GameObject.Find("Canvas").GetComponent<FadeManager>();
 
-        //Reload current scene
+        //リトライボタンが押される　→　シーンをリセット
         retryButton.onClick.AddListener(delegate {
-            fadeManager.Fade(false, 0.5f);
             GameStateManager.CurrentState = GameStateManager.GameStates.INITIAL;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             

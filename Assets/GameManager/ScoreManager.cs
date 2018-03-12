@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour {
 
-	public static float Score { get; set; }
-    private float startingPoint; //used to store the position where player starts
+    /// <summary>
+    /// プレイヤーが進んだ距離に応じてスコアを算出するためのスクリプト
+    /// </summary>
+
+	public static float Score { get; set; } //スコア
+    private float startingPoint; //プレイヤーの初期位置を格納するために使用
 
     private void Start()
     {
+        //プレイヤーの初期位置を格納
         startingPoint = MovementManager.PlayerTransform.position.z;
     }
 
     private void Update()
     {
-        //calculate score based on how far player gets
+        //プレイヤーの移動距離に応じてスコアを算出
         Score = MovementManager.PlayerTransform.position.z - startingPoint;
 
-        //Save highscore
+        //ハイスコアを格納
         if (Score > PlayerPrefs.GetFloat("HIGHSCORE"))
         {
             PlayerPrefs.SetFloat("HIGHSCORE", Score);

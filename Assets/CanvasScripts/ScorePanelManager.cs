@@ -5,14 +5,17 @@ using UnityEngine.UI;
 
 public class ScorePanelManager : MonoBehaviour {
 
-    public Text scoreText;
-    public Text highScoreText;
+    /// <summary>
+    /// ゲーム中に表示されるスコアパネルの設定をするためのスクリプト
+    /// </summary>
 
-    float highscore;
+    public Text scoreText;　　　//現在のスコアを表示するのに使用
+
+    float highscore;　　　　　　//ハイスコアを格納するのに使用
 
     private void Start()
     {
-        //Get highest score before start playing
+        //プレイ開始前のハイスコア取得
         highscore = PlayerPrefs.GetFloat("HIGHSCORE");
     }
 
@@ -20,12 +23,11 @@ public class ScorePanelManager : MonoBehaviour {
     {
         if (ScoreManager.Score > highscore)
         {
-            //When player reaches highscore, make the score text red
+            //ハイスコアを超えた際にテキストの色を赤くする
             scoreText.color = Color.red;
-
         }
 
-        //update score panel
+        //スコアテキストを更新
         scoreText.text = ScoreManager.Score.ToString("n1") + " m";
         
 
